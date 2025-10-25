@@ -1,0 +1,613 @@
+/* Reset & global */
+body, html, #root {
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 100%;
+  width: 100vw;
+  max-width: 100vw; /* ✅ prevents horizontal overflow */
+  overflow-x: hidden; /* extra safety */
+  font-family: 'Inter', sans-serif;
+}
+
+/* Safe area filler (status bar / notch background) */
+.safe-top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: env(safe-area-inset-top, 20px); /* fallback */
+  background: white;
+  z-index: 1000;
+}
+
+.intro-screen .safe-top {
+  background: #062b6b !important;
+}
+
+/* Screen container */
+.screen {
+  background: url('/assets/background.png') no-repeat center center / cover;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+
+  /* Respect device safe areas */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* Content wrapper: center everything */
+.content {
+  flex: 1; /* take all remaining height below navbar */
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;   /* vertical centering */
+  align-items: center;       /* horizontal centering */
+  text-align: center;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+/* Navbar */
+.navbar {
+  width: 100%;
+  display: flex;
+  justify-content: center; /* logo centered */
+  align-items: center;
+  background: white;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar.main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 10px 15px;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Sub navbar (Screen7 etc.) */
+.navbar.sub {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  position: relative;
+}
+
+.navbar.sub .back {
+  position: absolute;
+  left: 15px;
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: #062b6b;
+}
+
+/* Fixed button stays same size */
+.fixed-btn {
+  position: fixed;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 400px;
+  height: 50px;
+  z-index: 1100; /* above map */
+}
+
+/* Accepted button styling */
+
+
+.navbar .back {
+  position: absolute;
+  left: 20px; /* increased spacing */
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: #062b6b;
+}
+
+/* Logo images (navbar + standalone) */
+.logo img,
+.navbar img {
+  max-height: 40px;
+  height: auto;
+  width: auto;
+  object-fit: contain;
+}
+
+/* Headings */
+h2 {
+  color: white;
+  margin: 20px 0;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* ===== Forms ===== */
+.form {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.input {
+  background: white;
+  border-radius: 25px;
+  border: 1px solid #ccc;
+  padding: 0 15px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  color: #062b6b;
+}
+
+.input img {
+  width: 26px;
+  height: 26px;
+  margin-right: 10px;
+}
+
+.input input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ===== Buttons ===== */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  height: 50px;
+  padding: 0 20px;
+  margin: 10px auto;
+  width: 90%;
+  max-width: 400px;
+  box-sizing: border-box;
+  transition: background 0.15s ease; /* animate only background */
+}
+
+.btn img {
+  width: 22px;
+  height: 22px;
+  margin-right: 10px;
+}
+
+/* Button variants */
+.primary { background: #062b6b; color: white; border: none; }
+.primary:hover { background: #0a3d9c; }
+
+.secondary { background: transparent; border: 2px solid #df772e; color: #df772e; }
+.secondary:hover { background: #df772e; color: white; }
+
+.continue { background: white; color: #062b6b; border: none; }
+.continue:hover { background: #f2f2f2; }
+
+/* ===== Lists ===== */
+.list {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.list-item {
+  background: white;
+  border-radius: 25px;
+  padding: 12px 20px;
+  margin: 5px 0;
+  text-align: center;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.list-item:active {
+  transform: scale(0.95);
+}
+.list-item:active {
+  background: #062b6b;
+  color: white;
+}
+
+/* ===== Actual Map ===== */
+.actual-map {
+  background: none;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 400px;
+  height: 300px;
+  overflow: hidden;
+  margin: 20px 0;
+  position: relative;
+}
+
+.actual-map .leaflet-container {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 12px;
+}
+
+/* ===== Success Screen ===== */
+.success-icon {
+  width: 80px;
+  margin: 30px 0;
+}
+
+
+/* Intro animation screen */
+.intro-screen {
+  background: #062b6b;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.logo-animation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.intro-text {
+  color: white;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-top: 20px;
+  animation: fadeInUp 1s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Task cards */
+.task-container {
+  flex: 1;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding-top: 10px !important;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.task-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.task-heading {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: black;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.task-title {
+  color: black; /* dark for visibility */
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 10px 0;
+}
+
+.task-thumbnail {
+  position: relative;
+  width: 100%;
+  min-height: 220px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.task-thumbnail img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 30%, transparent 80%);
+  z-index: 2; /* sits on top of image but under text */
+}
+
+.task-info {
+  position: absolute;   /* lock info inside the card */
+  inset: 0;             /* stretch to all sides */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; /* push footer to bottom */
+  padding: 15px;
+  color: white;
+  z-index: 3; /* above gradient */
+}
+
+.task-info h3 {
+  margin: 0 0 4px 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0px 2px 4px rgba(0,0,0,0.6);
+}
+
+.task-info .date {
+  font-size: 0.9rem;
+  opacity: 0.85;
+  margin-bottom: 6px;
+}
+
+.task-info .desc {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin: 5px 0 10px 0;
+  max-height: none;       /* allow unlimited height */
+  overflow: visible;      /* show full text */
+  text-overflow: unset;   /* no ellipsis */
+  white-space: normal;    /* wrap naturally */
+}
+
+.task-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.user {
+  display: inline-flex;       /* inline-flex instead of flex */
+  align-items: center;        /* vertical centering */
+  gap: 6px;
+  flex-wrap: nowrap;          /* prevent wrapping */
+  white-space: nowrap;        /* keep text in one line */
+}
+
+.user img {
+  width: 26px;                /* slightly smaller */
+  height: 26px;
+  flex-shrink: 0;             /* never shrink */
+  border-radius: 50%;
+  border: 2px solid white;
+  object-fit: cover;
+}
+
+.user span {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: white;
+}
+
+.stars {
+  color: gold;
+  font-size: 0.8rem;
+}
+
+/* Small button inside card */
+.btn.small {
+  height: 34px;
+  font-size: 0.9rem;
+  padding: 0 14px;            /* tighter padding */
+  border-radius: 18px;
+  flex-shrink: 0;             /* don’t let it expand */
+  min-width: auto;
+  max-width: 100px;           /* keep it compact */
+  white-space: nowrap;        /* no text wrapping */
+}
+
+/* Task detail page */
+.task-detail {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+}
+
+.task-header img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.task-body {
+  flex: 1;
+  padding: 20px;
+  text-align: left;
+}
+
+.task-body h2 {
+  margin: 10px 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.task-body hr {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 20px 0;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.user-info img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+
+.user-info .stars {
+  color: gold;
+  font-size: 1rem;
+}
+
+.user-info .price {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+  color: #062b6b;
+  margin-left: auto; /* push price to the right side */
+}
+
+.user-info .price img {
+  width: 18px;
+  height: 18px;
+}
+
+.desc {
+  margin: 15px 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/* Confirmation state */
+.task-detail.accepted {
+  background: #062b6b;
+  color: white;
+  text-align: center;
+}
+
+.confirmation-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 20px;
+}
+
+/* make sure that the lottie container is centered */
+.lottie-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+}
+
+/* reuse confirmation styles */
+.confirmation-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 20px;
+}
+
+.confirmation-text {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 20px 0;
+  text-align: center;
+  color: white;
+}
+
+/* accepted button */
+.accepted-btn {
+  background: #df772e;
+  color: white;
+  border: none;
+  cursor: default; /* looks inactive */
+  pointer-events: none; /* cannot be clicked */
+}
+
+.task-header {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+}
+
+.task-header img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.thumbnail-gradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+}
+
+/* Default white background */
+.screen.task-detail {
+  background: white;
+  color: black;
+}
+
+.screen.task-list {
+  background: white;
+  color: #111; /* dark text */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.map-preview {
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.map-preview .leaflet-container {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 12px;
+}
+
+.text-white {
+  color: white !important;
+}
